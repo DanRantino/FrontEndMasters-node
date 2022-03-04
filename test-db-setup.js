@@ -1,16 +1,20 @@
-/* import mongoose from 'mongoose'
+import mongoose from 'mongoose'
 import cuid from 'cuid'
 import _ from 'lodash'
 import { Item } from './src/resources/item/item.model'
 import { List } from './src/resources/list/list.model'
 import { User } from './src/resources/user/user.model'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const models = { User, List, Item }
-
-const url =
+let url =
   process.env.MONGODB_URI ||
   process.env.DB_URL ||
   'mongodb://localhost:27017/tipe-devapi-testing'
+url = url.split('<password>')
+url = url[0] + process.env.DB_PASSWORD + url[1]
 
 global.newId = () => {
   return mongoose.Types.ObjectId()
@@ -52,11 +56,10 @@ beforeEach(async done => {
   done()
 })
 afterEach(async done => {
-  await mongoose.connection.db.dropDatabase()
+  // await mongoose.connection.db.dropDatabase()
   await mongoose.disconnect()
   return done()
 })
 afterAll(done => {
   return done()
 })
-*/

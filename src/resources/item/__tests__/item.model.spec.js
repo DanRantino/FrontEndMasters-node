@@ -1,4 +1,3 @@
-/*
 import { Item } from '../item.model'
 import mongoose from 'mongoose'
 
@@ -53,4 +52,3 @@ describe('Item model', () => {
     })
   })
 })
-*/
