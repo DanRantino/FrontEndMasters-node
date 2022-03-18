@@ -13,7 +13,8 @@
     "test-auth": "npm run test -t Authentication:",
     "dev": "nodemon --exec npm run restart",
     "restart": "rimraf dist && npm run build && npm run start",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "test-p":"npm run test -t ./utils/__tests__/auth.spec.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

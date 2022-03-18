@@ -9,13 +9,10 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const models = { User, List, Item }
-let url =
-  process.env.MONGODB_URI ||
-  process.env.DB_URL ||
-  'mongodb://localhost:27017/tipe-devapi-testing'
-url = url.split('<password>')
-url = url[0] + process.env.DB_PASSWORD + url[1]
-
+const url = process.env.MONGODB_URI || process.env.DB_URL
+// || 'mongodb://localhost:27017/tipe-devapi-testing'
+let connectUrl = url.split('<password>')
+connectUrl = connectUrl[0] + process.env.DB_PASSWORD + connectUrl[1]
 global.newId = () => {
   return mongoose.Types.ObjectId()
 }
@@ -37,7 +34,7 @@ beforeEach(async done => {
   if (mongoose.connection.readyState === 0) {
     try {
       await mongoose.connect(
-        url + db,
+        connectUrl + 'api-test',
         {
           useNewUrlParser: true,
           autoIndex: true

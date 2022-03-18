@@ -5,13 +5,13 @@ const router = Router()
 
 router
   .route('/')
-  .get(controller.getAll)
-  .post(controller.create)
+  .get(controller.getMany)
+  .post(controller.createOne)
 
 router
   .route('/:id')
   .get(controller.getOne)
-  .put(controller.update)
-  .delete(controller.deleteOne)
+  .put(controller.updateOne)
+  .delete(controller.removeOne)
 
 export default router

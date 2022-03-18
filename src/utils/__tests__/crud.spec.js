@@ -1,8 +1,10 @@
-/*
-import { getOne, getMany, createOne, updateOne, removeOne } from '../crud'
+import { crudControllers } from '../crud'
 import { List } from '../../resources/list/list.model'
-import { User } from '../../resources/user/user.model'
 import mongoose from 'mongoose'
+
+const { getOne, getMany, createOne, updateOne, removeOne } = crudControllers(
+  List
+)
 
 describe('crud controllers', () => {
   describe('getOne', async () => {
@@ -31,12 +33,11 @@ describe('crud controllers', () => {
         }
       }
 
-      await getOne(List)(req, res)
+      await getOne(req, res)
     })
 
     test('404 if no doc was found', async () => {
-      expect.assertions(2)
-
+      expect.assertions(1)
       const user = mongoose.Types.ObjectId()
 
       const req = {
@@ -50,27 +51,26 @@ describe('crud controllers', () => {
 
       const res = {
         status(status) {
-          expect(status).toBe(400)
+          expect(status).toBe(404)
           return this
         },
         end() {
           expect(true).toBe(true)
         }
       }
-
-      await getOne(List)(req, res)
+      await getOne(req, res)
     })
   })
 
   describe('getMany', () => {
     test('finds array of docs by authenticated user', async () => {
-      expect.assertions(4)
+      expect.assertions(3)
 
-      const user = mongoose.Types.ObjectId()
+      const user = '622fecd1e8b9a739b5ff9e53'
       await List.create([
-        { name: 'list', createdBy: user },
-        { name: 'other', createdBy: user },
-        { name: 'list', createdBy: mongoose.Types.ObjectId() }
+        { name: 'list', createdBy: '622fecd1e8b9a739b5ff9e53' },
+        { name: 'other', createdBy: '622fecd1e8b9a739b5ff9e53' },
+        { name: 'list1', createdBy: '622fecd1e8b9a739b5ff9e52' }
       ])
 
       const req = {
@@ -89,14 +89,13 @@ describe('crud controllers', () => {
           result.data.forEach(doc => expect(`${doc.createdBy}`).toBe(`${user}`))
         }
       }
-
-      await getMany(List)(req, res)
+      await getMany(req, res)
     })
   })
 
   describe('createOne', () => {
     test('creates a new doc', async () => {
-      expect.assertions(2)
+      expect.assertions(1)
       const user = mongoose.Types.ObjectId()
       const body = { name: 'name' }
 
@@ -114,12 +113,12 @@ describe('crud controllers', () => {
           expect(results.data.name).toBe(body.name)
         }
       }
-
-      await createOne(List)(req, res)
+      const { createOne } = crudControllers(List)
+      await createOne(req, res)
     })
 
     test('createdBy should be the authenticated user', async () => {
-      expect.assertions(2)
+      expect.assertions(1)
       const user = mongoose.Types.ObjectId()
       const body = { name: 'name' }
 
@@ -137,8 +136,7 @@ describe('crud controllers', () => {
           expect(`${results.data.createdBy}`).toBe(`${user}`)
         }
       }
-
-      await createOne(List)(req, res)
+      await createOne(req, res)
     })
   })
 
@@ -167,7 +165,7 @@ describe('crud controllers', () => {
         }
       }
 
-      await updateOne(List)(req, res)
+      await updateOne(req, res)
     })
 
     test('400 if no doc', async () => {
@@ -192,13 +190,13 @@ describe('crud controllers', () => {
         }
       }
 
-      await updateOne(List)(req, res)
+      await updateOne(req, res)
     })
   })
 
   describe('removeOne', () => {
     test('first doc by authenticated user and id to remove', async () => {
-      expect.assertions(2)
+      expect.assertions(1)
 
       const user = mongoose.Types.ObjectId()
       const list = await List.create({ name: 'name', createdBy: user })
@@ -218,7 +216,7 @@ describe('crud controllers', () => {
         }
       }
 
-      await removeOne(List)(req, res)
+      await removeOne(req, res)
     })
 
     test('400 if no doc', async () => {
@@ -240,8 +238,7 @@ describe('crud controllers', () => {
         }
       }
 
-      await removeOne(List)(req, res)
+      await removeOne(req, res)
     })
   })
 })
-*/

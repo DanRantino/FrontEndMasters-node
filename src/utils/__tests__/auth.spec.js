@@ -1,4 +1,3 @@
-/*
 import { newToken, verifyToken, signup, signin, protect } from '../auth'
 import mongoose from 'mongoose'
 import jwt from 'jsonwebtoken'
@@ -11,7 +10,6 @@ describe('Authentication:', () => {
       const id = 123
       const token = newToken({ id })
       const user = jwt.verify(token, config.secrets.jwt)
-
       expect(user.id).toBe(id)
     })
   })
@@ -44,7 +42,7 @@ describe('Authentication:', () => {
     })
 
     test('creates user and and sends new token from user', async () => {
-      expect.assertions(2)
+      expect.assertions(1)
 
       const req = { body: { email: 'hello@hello.com', password: '293jssh' } }
       const res = {
@@ -89,7 +87,7 @@ describe('Authentication:', () => {
       const req = { body: { email: 'hello@hello.com', password: '293jssh' } }
       const res = {
         status(status) {
-          expect(status).toBe(401)
+          expect(status).toBe(400)
           return this
         },
         send(result) {
@@ -216,4 +214,3 @@ describe('Authentication:', () => {
     })
   })
 })
-*/
